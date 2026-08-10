@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.List;
 
 class Validators {
     public static final Scanner input = new Scanner(System.in);
@@ -87,6 +88,48 @@ public class Main {
     public static final InventoryManagementSystem ims = new InventoryManagementSystem();
     public static Scanner input = new Scanner(System.in);
 
+    public static void printNoItemMessage() {
+        System.out.println(".".repeat(30));
+        System.out.println("There are no items in the system.");
+        System.out.println(".".repeat(30));
+    }
+
+    public static void printTableHeader(boolean includeCategory) {
+        if (includeCategory) {
+            System.out.printf("%-20s %-20s %-20s %-20s %-20s\n", "ITEM ID", "NAME", "QUANTITY", "PRICE", "CATEGORY");
+            System.out.println("-".repeat(100));
+        } else {
+            System.out.printf("%-20s %-20s %-20s %-20s\n", "ITEM ID", "NAME", "QUANTITY", "PRICE");
+            System.out.println("-".repeat(80));
+        }
+    }
+
+    public static void displayAllItems() {
+        List<Item> allItems = ims.getAllItems();
+        if (allItems.isEmpty()) {
+            printNoItemMessage();
+            return;
+        }
+        System.out.println("All Items");
+        printTableHeader(true);
+        for (Item item : allItems) {
+            System.out.println(item.toDisplayFormat(true));
+        }
+    }
+
+    public static void displayLowQuantityItems() {
+        List<Item> lowQuantityItems = ims.getLowQuantityItems();
+        if (lowQuantityItems.isEmpty()) {
+            printNoItemMessage();
+            return;
+        }
+        System.out.println("Low Quantity Items");
+        printTableHeader(true);
+        for (Item lowQuanItem : lowQuantityItems) {
+            System.out.println(lowQuanItem.toDisplayFormat(true));
+        }
+    }
+
     public static void main(String[] args) {
         boolean programRunning = true;
         while (programRunning) {
@@ -109,10 +152,10 @@ public class Main {
                     removeItem();
                     break;
                 case 5:
-                    ims.displayAllItems();
+                    displayAllItems();
                     break;
                 case 8:
-                    ims.displayLowQuantityItems();
+                    displayLowQuantityItems();
                     break;
                 case 9:
                     programRunning = false;
