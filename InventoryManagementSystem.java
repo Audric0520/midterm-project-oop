@@ -4,6 +4,14 @@ import java.util.List;
 public class InventoryManagementSystem {
     private final List<Item> items = new ArrayList<Item>();
 
+    public boolean isValidCategory(String category) {
+        if (category.equalsIgnoreCase("Clothing") || category.equalsIgnoreCase("Electronics")
+                || category.equalsIgnoreCase("Entertainment")) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean findDuplicateItem(String itemID) {
         for (Item item : items) {
             if (itemID.equals(item.getItemID())) {
@@ -38,6 +46,16 @@ public class InventoryManagementSystem {
 
     public List<Item> getAllItems() {
         return new ArrayList<>(items);
+    }
+
+    public List<Item> getItemsByCategory(String category) {
+        List<Item> categoryItems = new ArrayList<>();
+        for (Item item : items) {
+            if (item.getCategory().equalsIgnoreCase(category)) {
+                categoryItems.add(item);
+            }
+        }
+        return categoryItems;
     }
 
     public List<Item> getLowQuantityItems() {

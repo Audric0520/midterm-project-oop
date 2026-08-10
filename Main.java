@@ -117,6 +117,25 @@ public class Main {
         }
     }
 
+    public static void displayItemsByCategory() {
+        String category = Validators.validateStringInput("Input Category(Clothing/Electronics/Entertainment): ");
+        if (!ims.isValidCategory(category)) {
+            System.out.printf("Category '%s' does not exist!\n", category);
+            return;
+        }
+        List<Item> categoryItems = ims.getItemsByCategory(category);
+        if (categoryItems.isEmpty()) {
+            printNoItemMessage();
+            return;
+        }
+        System.out.println("Items by category");// TODO ADJUST MESSAGE TO DISPLAY WHAT CATEGORY IT IS
+        printTableHeader(false);
+        for (Item categoryItem : categoryItems) {
+            System.out.println(categoryItem.toDisplayFormat(false));
+        }
+
+    }
+
     public static void displayLowQuantityItems() {
         List<Item> lowQuantityItems = ims.getLowQuantityItems();
         if (lowQuantityItems.isEmpty()) {
@@ -150,6 +169,9 @@ public class Main {
                     break;
                 case 3:
                     removeItem();
+                    break;
+                case 4:
+                    displayItemsByCategory();
                     break;
                 case 5:
                     displayAllItems();
@@ -196,7 +218,7 @@ public class Main {
 
     public static void removeItem() {
         String ID;
-        ID = Validators.validateStringInput("Input ID to Item to Remove: ");
+        ID = Validators.validateStringInput("Input ID of Item to Remove: ");
         Item item = ims.findSpecificItem(ID);
         if (item == null) {
             System.out.println("Item not Found!");
