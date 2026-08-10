@@ -3,4 +3,8 @@ public class Clothing extends Item {
         super(itemID, name, quantity, price);
     }
 
+    @Override
+    public String getCategory() {
+        return "Clothing";
+    }
 }

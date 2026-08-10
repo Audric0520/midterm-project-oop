@@ -18,8 +18,22 @@ public class InventoryManagementSystem {
         System.out.println("Success Add!");
     }
 
-    public void removeItem() {
+    public Item findSpecificItem(String ID) {
+        for (Item item : items) {
+            if (item.getItemID().equalsIgnoreCase(ID)) {
+                return item;
+            }
+        }
+        return null;
+    }
 
+    public boolean removeItem(String ID) {
+        Item itemToRemove = findSpecificItem(ID);
+        if (itemToRemove == null) {
+            return false;
+        }
+        items.remove(itemToRemove);
+        return true;
     }
 
     public void displayAllItems() {
@@ -30,8 +44,8 @@ public class InventoryManagementSystem {
             return;
         }
         System.out.println("All Items");
-        System.out.printf("%-20s %-20s %-20s %-20s\n", "ITEM ID", "NAME", "QUANTITY", "PRICE");
-        System.out.println("-".repeat(80));
+        System.out.printf("%-20s %-20s %-20s %-20s %-20s\n", "ITEM ID", "NAME", "QUANTITY", "PRICE", "CATEGORY");
+        System.out.println("-".repeat(100));
         for (Item i : items) {
             System.out.println(i.toDisplayFormat());
         }
@@ -45,8 +59,8 @@ public class InventoryManagementSystem {
             return;
         }
         System.out.println("Low Quantity Items");
-        System.out.printf("%-20s %-20s %-20s %-20s\n", "ITEM ID", "NAME", "QUANTITY", "PRICE");
-        System.out.println("-".repeat(80));
+        System.out.printf("%-20s %-20s %-20s %-20s %-20s\n", "ITEM ID", "NAME", "QUANTITY", "PRICE", "CATEGORY");
+        System.out.println("-".repeat(100));
         for (Item i : items) {
             if (i.getQuantity() <= 5) {
                 System.out.println(i.toDisplayFormat());

@@ -27,8 +27,10 @@ public abstract class Item {
         return price;
     }
 
+    public abstract String getCategory();
+
     public String toDisplayFormat() {
         String formattedPrice = String.format("P%.2f", price);
-        return String.format("%-20s %-20s %-20s %-20s", itemID, name, quantity, formattedPrice);
+        return String.format("%-20s %-20s %-20s %-20s %-20s", itemID, name, quantity, formattedPrice, getCategory());
     }
 }

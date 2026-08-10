@@ -11,17 +11,13 @@ class Validators {
             System.out.print(prompt);
             inputNumber = input.nextLine().trim();
             if (!inputNumber.matches("-?(0|[1-9]\\d*)")) {
-                System.out.println("Invalid Input. Only input integers without leading zeros. Try Again.");
+                System.out.println("Invalid Input. Only input positive integers without leading zeros. Try Again.");
                 continue;
             }
             try {
                 number = Integer.parseInt(inputNumber);
             } catch (NumberFormatException e) {
                 System.out.println("Number is too large. Try Again.");
-                continue;
-            }
-            if (number <= 0) {
-                System.out.println("Input must be greater than 0. Try Again.");
                 continue;
             }
             isRunning = false;
@@ -110,7 +106,7 @@ public class Main {
                     addItem();
                     break;
                 case 3:
-                    System.out.println("Todo");
+                    removeItem();
                     break;
                 case 5:
                     ims.displayAllItems();
@@ -142,7 +138,7 @@ public class Main {
             canAddItem = true;
         } while (!canAddItem); // TODO UPDATE VALIDATOR FOR ID
         name = Validators.validateStringInput("Input Name: ");
-        quantity = Validators.validateIntInput("Input Quantity: ");
+        quantity = Validators.validateIntInput("Input Quantity: "); // TODO ADJUST TO ACCEPT 0
         price = Validators.validateDoubleInput("Input Price: ");
         Item item;
         switch (choice) {
@@ -158,10 +154,13 @@ public class Main {
     public static void removeItem() {
         String ID;
         ID = Validators.validateStringInput("Input ID to Item to Remove: ");
-        if (!ims.findDuplicateItem(ID)) {
+        Item item = ims.findSpecificItem(ID);
+        if (item == null) {
             System.out.println("Item not Found!");
-        } else {
-            ims.removeItem();
+            return;
         }
+        String name = item.getName();
+        ims.removeItem(ID);
+        System.out.printf("Item '%s' has been removed from the inventory.\n", name);
     }
 }
