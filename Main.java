@@ -105,13 +105,18 @@ public class Main {
             System.out.println("8. Display Low Stock Items");
             System.out.println("9. Exit");
             int choice = Validators.validateNumberChoiceInput("Choice: ", 1, 9);
-
             switch (choice) {
                 case 1:
                     addItem();
                     break;
+                case 3:
+                    System.out.println("Todo");
+                    break;
                 case 5:
                     ims.displayAllItems();
+                    break;
+                case 8:
+                    ims.displayLowQuantityItems();
                     break;
                 case 9:
                     programRunning = false;
@@ -148,5 +153,15 @@ public class Main {
                 return;
         }
         ims.addItem(item);
+    }
+
+    public static void removeItem() {
+        String ID;
+        ID = Validators.validateStringInput("Input ID to Item to Remove: ");
+        if (!ims.findDuplicateItem(ID)) {
+            System.out.println("Item not Found!");
+        } else {
+            ims.removeItem();
+        }
     }
 }
