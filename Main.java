@@ -88,9 +88,10 @@ public class Main {
     public static final InventoryManagementSystem ims = new InventoryManagementSystem();
     public static Scanner input = new Scanner(System.in);
 
-    public static void printNoItemMessage() {
+    public static void printNoItemMessage(String message) {// TODO ADJUST SO IT CAN PRINT SPECIFIC MESSAGES. MAY ADD
+                                                           // PARAMETER
         System.out.println(".".repeat(30));
-        System.out.println("There are no items in the system.");
+        System.out.println(message);
         System.out.println(".".repeat(30));
     }
 
@@ -107,7 +108,7 @@ public class Main {
     public static void displayAllItems() {
         List<Item> allItems = ims.getAllItems();
         if (allItems.isEmpty()) {
-            printNoItemMessage();
+            printNoItemMessage("There are no items in the system");
             return;
         }
         System.out.println("All Items");
@@ -125,7 +126,7 @@ public class Main {
         }
         List<Item> categoryItems = ims.getItemsByCategory(category);
         if (categoryItems.isEmpty()) {
-            printNoItemMessage();
+            printNoItemMessage(String.format("There are no %s items in the system.", category));
             return;
         }
         System.out.println("Items by category");// TODO ADJUST MESSAGE TO DISPLAY WHAT CATEGORY IT IS
@@ -139,7 +140,7 @@ public class Main {
     public static void displayLowQuantityItems() {
         List<Item> lowQuantityItems = ims.getLowQuantityItems();
         if (lowQuantityItems.isEmpty()) {
-            printNoItemMessage();
+            printNoItemMessage("There are no low quantity items in the system.");
             return;
         }
         System.out.println("Low Quantity Items");
@@ -203,7 +204,7 @@ public class Main {
             canAddItem = true;
         } while (!canAddItem); // TODO UPDATE VALIDATOR FOR ID
         name = Validators.validateStringInput("Input Name: ");
-        quantity = Validators.validateIntInput("Input Quantity: "); // TODO ADJUST TO ACCEPT 0
+        quantity = Validators.validateIntInput("Input Quantity: ");
         price = Validators.validateDoubleInput("Input Price: ");
         Item item;
         switch (choice) {
