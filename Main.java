@@ -121,7 +121,7 @@ public class Main {
     public static void displayAllItems() {
         List<Item> allItems = ims.getAllItems();
         if (allItems.isEmpty()) {
-            printNoItemMessage("There are no items in the system");
+            printNoItemMessage("There are no items in the system to display.");
             return;
         }
         System.out.println("All Items");
@@ -132,6 +132,11 @@ public class Main {
     }
 
     public static void displayItemsByCategory() {
+        List<Item> allItems = ims.getAllItems();
+        if (allItems.isEmpty()) {
+            printNoItemMessage("There are no items in the system to display.");
+            return;
+        }
         String category = Validators.validateStringInput("Input Category(Clothing/Electronics/Entertainment): ");
         if (!ims.isValidCategory(category)) {
             System.out.printf("Category '%s' does not exist!\n", category);
@@ -153,7 +158,7 @@ public class Main {
     public static void displayLowQuantityItems() {
         List<Item> lowQuantityItems = ims.getLowQuantityItems();
         if (lowQuantityItems.isEmpty()) {
-            printNoItemMessage("There are no low quantity items in the system.");
+            printNoItemMessage("There are no low quantity items in the system to display.");
             return;
         }
         System.out.println("Low Quantity Items");
@@ -197,6 +202,7 @@ public class Main {
                     displayLowQuantityItems();
                     break;
                 case 9:
+                    System.out.println("Thank you for using the program.\nExiting...");
                     programRunning = false;
                     break;
                 default:

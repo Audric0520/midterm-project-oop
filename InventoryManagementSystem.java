@@ -14,7 +14,7 @@ public class InventoryManagementSystem {
 
     public boolean findDuplicateItem(String itemID) {
         for (Item item : items) {
-            if (itemID.equals(item.getItemID())) {
+            if (itemID.equalsIgnoreCase(item.getItemID())) {
                 return true;
             }
         }
