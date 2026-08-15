@@ -35,6 +35,24 @@ public class InventoryManagementSystem {
         return null;
     }
 
+    public boolean updateQuantityItem(String ID, int quantity) {
+        Item item = findSpecificItem(ID);
+        if (item == null) {
+            return false;
+        }
+        item.setQuantity(quantity);
+        return true;
+    }
+
+    public boolean updatePriceItem(String ID, double price) {
+        Item item = findSpecificItem(ID);
+        if (item == null) {
+            return false;
+        }
+        item.setPrice(price);
+        return true;
+    }
+
     public boolean removeItem(String ID) {
         Item itemToRemove = findSpecificItem(ID);
         if (itemToRemove == null) {

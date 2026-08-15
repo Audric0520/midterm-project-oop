@@ -82,14 +82,27 @@ class Validators {
         }
         return number;
     }
+
+    public static String validateField(String prompt) {
+        boolean isRunning = true;
+        String field = "";
+        while (isRunning) {
+            field = Validators.validateStringInput(prompt);
+            if (field.equalsIgnoreCase("quantity") || field.equalsIgnoreCase("price")) {
+                isRunning = false;
+            } else {
+                System.out.println("Invalid input. Only type 'Quantity' or 'Price'.");
+            }
+        }
+        return field;
+    }
 }
 
 public class Main {
     public static final InventoryManagementSystem ims = new InventoryManagementSystem();
     public static Scanner input = new Scanner(System.in);
 
-    public static void printNoItemMessage(String message) {// TODO ADJUST SO IT CAN PRINT SPECIFIC MESSAGES. MAY ADD
-                                                           // PARAMETER
+    public static void printNoItemMessage(String message) {
         System.out.println(".".repeat(30));
         System.out.println(message);
         System.out.println(".".repeat(30));
@@ -168,6 +181,9 @@ public class Main {
                 case 1:
                     addItem();
                     break;
+                case 2:
+                    updateItem();
+                    break;
                 case 3:
                     removeItem();
                     break;
@@ -217,7 +233,43 @@ public class Main {
         ims.addItem(item);
     }
 
+    public static void updateItem() {
+        List<Item> allItems = ims.getAllItems();
+        if (allItems.isEmpty()) {
+            printNoItemMessage("There are no items in the system to update.");
+            return;
+        }
+        String ID;
+        ID = Validators.validateStringInput("Input ID of item to Update: ");
+        Item item = ims.findSpecificItem(ID);
+        if (item == null) {
+            System.out.println("Item not Found!");
+            return;
+        }
+        String field = Validators.validateField("Update Quantity or Price?: ");
+        if (field.equalsIgnoreCase("quantity")) {
+            int oldQuantity = item.getQuantity();
+            int newQuantity = Validators.validateIntInput("Input new Quantity: ");
+            ims.updateQuantityItem(ID, newQuantity);
+            System.out.printf("%s\nQuantity of Item '%s' is updated from %d to %d\n%s\n", ".".repeat(30),
+                    item.getName(), oldQuantity,
+                    newQuantity, ".".repeat(30));
+        } else {
+            double oldPrice = item.getPrice();
+            double newPrice = Validators.validateDoubleInput("Input new Price: ");
+            ims.updatePriceItem(ID, newPrice);
+            System.out.printf("%s\nPrice of Item '%s' is updated from P%.2f to P%.2f\n%s\n", ".".repeat(30),
+                    item.getName(), oldPrice,
+                    newPrice, ".".repeat(30));
+        }
+    }
+
     public static void removeItem() {
+        List<Item> allItems = ims.getAllItems();
+        if (allItems.isEmpty()) {
+            printNoItemMessage("There are no items in the system to remove.");
+            return;
+        }
         String ID;
         ID = Validators.validateStringInput("Input ID of Item to Remove: ");
         Item item = ims.findSpecificItem(ID);

@@ -27,6 +27,14 @@ public abstract class Item {
         return price;
     }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public abstract String getCategory();
 
     public String toDisplayFormat(boolean includeCategory) {
