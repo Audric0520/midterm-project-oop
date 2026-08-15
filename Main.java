@@ -198,6 +198,9 @@ public class Main {
                 case 5:
                     displayAllItems();
                     break;
+                case 6:
+                    searchItem();
+                    break;
                 case 8:
                     displayLowQuantityItems();
                     break;
@@ -286,5 +289,17 @@ public class Main {
         String name = item.getName();
         ims.removeItem(ID);
         System.out.printf("Item '%s' has been removed from the inventory.\n", name);
+    }
+
+    public static void searchItem() {
+        String ID = Validators.validateStringInput("Enter ID of Item to Search: ");
+        Item item = ims.findSpecificItem(ID);
+        if (item == null) {
+            System.out.println("Item not Found!");
+            return;
+        }
+        System.out.printf("%s\nItem ID '%s' Details\n%s\n", ".".repeat(30), item.getItemID(), ".".repeat(30));
+        printTableHeader(true);
+        System.out.println(item.toDisplayFormat(true));
     }
 }
