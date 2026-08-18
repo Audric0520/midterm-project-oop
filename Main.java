@@ -83,6 +83,27 @@ class Validators {
         return number;
     }
 
+    public static int validateQuantityInput(String prompt, boolean forUpdating) {
+        boolean isRunning = true;
+        int number = 0;
+        while (isRunning) {
+            number = validateIntInput(prompt);
+            if (forUpdating) {
+                if (number < 0) {
+                    System.out.println("Invalid Input. Quantity cannot be negative. Try Again.");
+                    continue;
+                }
+            } else {
+                if (number <= 0) {
+                    System.out.println("Invalid Input. Quantity must be greater than 0. Try Again.");
+                    continue;
+                }
+            }
+            isRunning = false;
+        }
+        return number;
+    }
+
     public static String validateField(String prompt) {
         boolean isRunning = true;
         String field = "";
@@ -95,6 +116,24 @@ class Validators {
             }
         }
         return field;
+    }
+
+    public static boolean validateSortOrder() {
+        boolean isRunning = true;
+        boolean ascending = true;
+        while (isRunning) {
+            String input = Validators.validateStringInput("Order (Ascending/Descending): ");
+            if (input.equals("ascending") || input.equals("asc")) {
+                ascending = true;
+                isRunning = false;
+            } else if (input.equals("descending") || input.equals("desc")) {
+                ascending = false;
+                isRunning = false;
+            } else {
+                System.out.println("Invalid input! Please type 'Ascending' or 'Descending'.");
+            }
+        }
+        return ascending;
     }
 }
 
@@ -201,6 +240,9 @@ public class Main {
                 case 6:
                     searchItem();
                     break;
+                case 7:
+                    sortItems();
+                    break;
                 case 8:
                     displayLowQuantityItems();
                     break;
@@ -229,7 +271,7 @@ public class Main {
             canAddItem = true;
         } while (!canAddItem); // TODO UPDATE VALIDATOR FOR ID
         name = Validators.validateStringInput("Input Name: ");
-        quantity = Validators.validateIntInput("Input Quantity: ");
+        quantity = Validators.validateQuantityInput("Input Quantity: ", false);
         price = Validators.validateDoubleInput("Input Price: ");
         Item item;
         switch (choice) {
@@ -257,15 +299,27 @@ public class Main {
         }
         String field = Validators.validateField("Update Quantity or Price?: ");
         if (field.equalsIgnoreCase("quantity")) {
-            int oldQuantity = item.getQuantity();
-            int newQuantity = Validators.validateIntInput("Input new Quantity: ");
+            int oldQuantity = 0, newQuantity = 0;
+            do {
+                oldQuantity = item.getQuantity();
+                newQuantity = Validators.validateQuantityInput("Input new Quantity: ", true);
+                if (oldQuantity == newQuantity) {
+                    System.out.printf("Quantity of Item '%s' is already %d. Try Again\n", item.getName(), oldQuantity);
+                }
+            } while (oldQuantity == newQuantity);
             ims.updateQuantityItem(ID, newQuantity);
             System.out.printf("%s\nQuantity of Item '%s' is updated from %d to %d\n%s\n", ".".repeat(30),
                     item.getName(), oldQuantity,
                     newQuantity, ".".repeat(30));
         } else {
-            double oldPrice = item.getPrice();
-            double newPrice = Validators.validateDoubleInput("Input new Price: ");
+            double oldPrice = 0, newPrice = 0;
+            do {
+                oldPrice = item.getPrice();
+                newPrice = Validators.validateDoubleInput("Input new Price: ");
+                if (oldPrice == newPrice) {
+                    System.out.printf("Price of Item '%s' is already %d. Try Again\n", item.getName(), oldPrice);
+                }
+            } while (oldPrice == newPrice);
             ims.updatePriceItem(ID, newPrice);
             System.out.printf("%s\nPrice of Item '%s' is updated from P%.2f to P%.2f\n%s\n", ".".repeat(30),
                     item.getName(), oldPrice,
@@ -301,5 +355,21 @@ public class Main {
         System.out.printf("%s\nItem ID '%s' Details\n%s\n", ".".repeat(30), item.getItemID(), ".".repeat(30));
         printTableHeader(true);
         System.out.println(item.toDisplayFormat(true));
+    }
+
+    public static void sortItems() {
+        List<Item> allItems = ims.getAllItems();
+        if (allItems.isEmpty()) {
+            printNoItemMessage("There are no items in the system to sort.");
+            return;
+        }
+        String sortField = Validators.validateField("Sort by Quantity or Price: ");
+        boolean isAscending = Validators.validateSortOrder();
+
+        List<Item> sorted = ims.getSortedItems(sortField, isAscending);
+        printTableHeader(true);
+        for (Item item : sorted) {
+            System.out.println(item.toDisplayFormat(true));
+        }
     }
 }

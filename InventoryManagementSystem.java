@@ -5,8 +5,8 @@ public class InventoryManagementSystem {
     private final List<Item> items = new ArrayList<Item>();
 
     public boolean isValidCategory(String category) {
-        if (category.equalsIgnoreCase("Clothing") || category.equalsIgnoreCase("Electronics")
-                || category.equalsIgnoreCase("Entertainment")) {
+        if (category.equalsIgnoreCase("clothing") || category.equalsIgnoreCase("electronics")
+                || category.equalsIgnoreCase("entertainment")) {
             return true;
         }
         return false;
@@ -64,6 +64,24 @@ public class InventoryManagementSystem {
 
     public List<Item> getAllItems() {
         return new ArrayList<>(items);
+    }
+
+    public List<Item> getSortedItems(String sortBy, boolean ascending) {
+        List<Item> sorted = new ArrayList<>(items);
+        sorted.sort((a, b) -> {
+            int comparison;
+            if (sortBy.equalsIgnoreCase("quantity")) {
+                comparison = Integer.compare(a.getQuantity(), b.getQuantity());
+            } else {
+                comparison = Double.compare(a.getPrice(), b.getPrice());
+            }
+            return ascending ? comparison : -comparison;
+        });
+        return sorted;
+    }
+
+    public boolean isEmpty() {
+        return items.isEmpty();
     }
 
     public List<Item> getItemsByCategory(String category) {
