@@ -85,7 +85,7 @@ class Validators {
 
     public static String validateIDInput(String category) {
         String prefix = getCategoryPrefix(category);
-        System.out.printf("ID format: %s followed by numbers (e.g. %s01)\n", prefix, prefix);
+        System.out.printf("ID format: '%s' followed by numbers (e.g. %s01)\n", prefix, prefix);
         boolean isRunning = true;
         String id = "";
         while (isRunning) {
@@ -138,36 +138,14 @@ class Validators {
         return number;
     }
 
-    public static String validateField(String prompt) {
-        boolean isRunning = true;
-        String field = "";
-        while (isRunning) {
-            field = Validators.validateStringInput(prompt);
-            if (field.equalsIgnoreCase("quantity") || field.equalsIgnoreCase("price")) {
-                isRunning = false;
-            } else {
-                System.out.println("Invalid input. Only type 'Quantity' or 'Price'.");
-            }
-        }
-        return field;
+    public static String validateFieldChoice(String prompt) {
+        int choice = validateNumberChoiceInput(prompt, 1, 2);
+        return (choice == 1) ? "quantity" : "price";
     }
 
-    public static boolean validateSortOrder() {
-        boolean isRunning = true;
-        boolean ascending = true;
-        while (isRunning) {
-            String input = Validators.validateStringInput("Order (Ascending/Descending): ");
-            if (input.equals("ascending") || input.equals("asc")) {
-                ascending = true;
-                isRunning = false;
-            } else if (input.equals("descending") || input.equals("desc")) {
-                ascending = false;
-                isRunning = false;
-            } else {
-                System.out.println("Invalid input! Please type 'Ascending' or 'Descending'.");
-            }
-        }
-        return ascending;
+    public static boolean validateSortOrderChoice(String prompt) {
+        int choice = validateNumberChoiceInput(prompt, 1, 2);
+        return choice == 1;
     }
 }
 
@@ -254,7 +232,7 @@ public class Main {
             System.out.println("7. Sort Items");
             System.out.println("8. Display Low Stock Items");
             System.out.println("9. Exit");
-            int choice = Validators.validateNumberChoiceInput("Choice: ", 1, 9);
+            int choice = Validators.validateNumberChoiceInput("Choice(1-9): ", 1, 9);
             switch (choice) {
                 case 1:
                     addItem();
@@ -335,7 +313,8 @@ public class Main {
             System.out.println("Item not Found!");
             return;
         }
-        String field = Validators.validateField("Update Quantity or Price?: ");
+        String field = Validators
+                .validateFieldChoice("Update Quantity or Price?\n1. Quantity\n2. Price\nChoice(1 or 2): ");
         if (field.equalsIgnoreCase("quantity")) {
             int oldQuantity = 0, newQuantity = 0;
             do {
@@ -386,6 +365,11 @@ public class Main {
     }
 
     public static void searchItem() {
+        List<Item> allItems = ims.getAllItems();
+        if (allItems.isEmpty()) {
+            printNoItemMessage("There are no items in the system to search.");
+            return;
+        }
         String ID = Validators.validateStringInput("Enter ID of Item to Search: ");
         Item item = ims.findSpecificItem(ID);
         if (item == null) {
@@ -403,8 +387,11 @@ public class Main {
             printNoItemMessage("There are no items in the system to sort.");
             return;
         }
-        String sortField = Validators.validateField("Sort by Quantity or Price: ");
-        boolean isAscending = Validators.validateSortOrder();
+        String sortField = Validators
+                .validateFieldChoice("Sort by Quantity or Price?\n1. Quantity\n2. Price\nChoice(1 or 2): ");
+        boolean isAscending = Validators
+                .validateSortOrderChoice(
+                        "Sort by Ascending or Descending\n1. Ascending\n2. Descending\nChoice(1 or 2): ");
 
         List<Item> sorted = ims.getSortedItems(sortField, isAscending);
         printTableHeader(true);
