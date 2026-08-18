@@ -85,18 +85,20 @@ class Validators {
 
     public static String validateIDInput(String category) {
         String prefix = getCategoryPrefix(category);
+        System.out.printf("ID format: %s followed by numbers (e.g. %s01)\n", prefix, prefix);
         boolean isRunning = true;
         String id = "";
         while (isRunning) {
             id = validateStringInput("Input ID: ");
-            if (!id.matches(prefix + "\\d+")) {
-                System.out.printf("Invalid Input. ID must be '%s' followed by numbers (e.g. %s001). Try Again.\n",
-                        prefix, prefix);
+            if (!id.matches("(?i)" + prefix + "\\d+")) {
+                System.out.printf(
+                        "Invalid Input. ID must be '%s' followed by numbers (e.g. %s001, %s002). Try Again.\n",
+                        prefix, prefix, prefix.toLowerCase());
                 continue;
             }
             isRunning = false;
         }
-        return id;
+        return id.toUpperCase();
     }
 
     private static String getCategoryPrefix(String category) {
@@ -104,7 +106,7 @@ class Validators {
         return (tempItem != null) ? tempItem.getCategoryIdPrefix() : "";
     }
 
-    private static Item createTempItem(String category) {
+    private static Item createTempItem(String category) { // TODO ADD VALIDATORS FOR OTHER CLASSES
         switch (category.toLowerCase()) {
             case "clothing":
                 return new Clothing("", "", 0, 0);
@@ -292,10 +294,14 @@ public class Main {
         String ID, name;
         int quantity;
         double price;
-        String choice = Validators.validateStringInput("Categories: Clothing,Electronics,Entertainment\nChoice: ");
+        String category = Validators.validateStringInput("Input Category(Clothing/Electronics/Entertainment): ");
+        if (!ims.isValidCategory(category)) {
+            System.out.printf("Category '%s' does not exist!\n", category);
+            return;
+        }
         boolean canAddItem = false;
         do {
-            ID = Validators.validateIDInput(choice);
+            ID = Validators.validateIDInput(category);
             if (ims.findDuplicateItem(ID)) {
                 System.out.println("Item with that ID already exists. Try Again.");
                 continue;
@@ -306,7 +312,7 @@ public class Main {
         quantity = Validators.validateQuantityInput("Input Quantity: ", false);
         price = Validators.validateDoubleInput("Input Price: ");
         Item item;
-        switch (choice) {
+        switch (category) {
             case "clothing":
                 item = new Clothing(ID, name, quantity, price);
                 break;
@@ -350,7 +356,7 @@ public class Main {
                 oldPrice = item.getPrice();
                 newPrice = Validators.validateDoubleInput("Input new Price: ");
                 if (oldPrice == newPrice) {
-                    System.out.printf("Price of Item '%s' is already %d. Try Again\n", item.getName(), oldPrice);
+                    System.out.printf("Price of Item '%s' is already %.2f. Try Again\n", item.getName(), oldPrice);
                 }
             } while (oldPrice == newPrice);
 
