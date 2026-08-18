@@ -37,6 +37,8 @@ public abstract class Item {
 
     public abstract String getCategory();
 
+    public abstract String getCategoryIdPrefix();
+
     public String toDisplayFormat(boolean includeCategory) {
         String formattedPrice = String.format("P%.2f", price);
         if (includeCategory) {

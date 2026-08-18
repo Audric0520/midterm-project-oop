@@ -83,6 +83,38 @@ class Validators {
         return number;
     }
 
+    public static String validateIDInput(String category) {
+        String prefix = getCategoryPrefix(category);
+        boolean isRunning = true;
+        String id = "";
+        while (isRunning) {
+            id = validateStringInput("Input ID: ");
+            if (!id.matches(prefix + "\\d+")) {
+                System.out.printf("Invalid Input. ID must be '%s' followed by numbers (e.g. %s001). Try Again.\n",
+                        prefix, prefix);
+                continue;
+            }
+            isRunning = false;
+        }
+        return id;
+    }
+
+    private static String getCategoryPrefix(String category) {
+        Item tempItem = createTempItem(category);
+        return (tempItem != null) ? tempItem.getCategoryIdPrefix() : "";
+    }
+
+    private static Item createTempItem(String category) {
+        switch (category.toLowerCase()) {
+            case "clothing":
+                return new Clothing("", "", 0, 0);
+            // case "electronics": return new Electronics("", "", 0, 0);
+            // case "entertainment": return new Entertainment("", "", 0, 0);
+            default:
+                return null;
+        }
+    }
+
     public static int validateQuantityInput(String prompt, boolean forUpdating) {
         boolean isRunning = true;
         int number = 0;
@@ -263,7 +295,7 @@ public class Main {
         String choice = Validators.validateStringInput("Categories: Clothing,Electronics,Entertainment\nChoice: ");
         boolean canAddItem = false;
         do {
-            ID = Validators.validateStringInput("Input ID: ");
+            ID = Validators.validateIDInput(choice);
             if (ims.findDuplicateItem(ID)) {
                 System.out.println("Item with that ID already exists. Try Again.");
                 continue;
@@ -307,6 +339,7 @@ public class Main {
                     System.out.printf("Quantity of Item '%s' is already %d. Try Again\n", item.getName(), oldQuantity);
                 }
             } while (oldQuantity == newQuantity);
+
             ims.updateQuantityItem(ID, newQuantity);
             System.out.printf("%s\nQuantity of Item '%s' is updated from %d to %d\n%s\n", ".".repeat(30),
                     item.getName(), oldQuantity,
@@ -320,6 +353,7 @@ public class Main {
                     System.out.printf("Price of Item '%s' is already %d. Try Again\n", item.getName(), oldPrice);
                 }
             } while (oldPrice == newPrice);
+
             ims.updatePriceItem(ID, newPrice);
             System.out.printf("%s\nPrice of Item '%s' is updated from P%.2f to P%.2f\n%s\n", ".".repeat(30),
                     item.getName(), oldPrice,

@@ -7,4 +7,9 @@ public class Clothing extends Item {
     public String getCategory() {
         return "Clothing";
     }
+
+    @Override
+    public String getCategoryIdPrefix() {
+        return "CL";
+    }
 }
