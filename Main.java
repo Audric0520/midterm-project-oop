@@ -121,7 +121,7 @@ class Validators {
         return (tempItem != null) ? tempItem.getCategoryIdPrefix() : "";
     }
 
-    private static Item createTempItem(String category) { // TODO ADD VALIDATORS FOR OTHER CLASSES
+    private static Item createTempItem(String category) {
         switch (category.toLowerCase()) {
             case "clothing":
                 return new Clothing("", "", 0, 0);
@@ -169,70 +169,6 @@ class Validators {
 public class Main {
     public static final InventoryManagementSystem ims = new InventoryManagementSystem();
     public static Scanner input = new Scanner(System.in);
-
-    public static void printNoItemMessage(String message) {
-        System.out.println(".".repeat(30));
-        System.out.println(message);
-        System.out.println(".".repeat(30));
-    }
-
-    public static void printTableHeader(boolean includeCategory) {
-        if (includeCategory) {
-            System.out.printf("%-20s %-20s %-20s %-20s %-20s\n", "ITEM ID", "NAME", "QUANTITY", "PRICE", "CATEGORY");
-            System.out.println("-".repeat(100));
-        } else {
-            System.out.printf("%-20s %-20s %-20s %-20s\n", "ITEM ID", "NAME", "QUANTITY", "PRICE");
-            System.out.println("-".repeat(80));
-        }
-    }
-
-    public static void displayAllItems() {
-        List<Item> allItems = ims.getAllItems();
-        if (allItems.isEmpty()) {
-            printNoItemMessage("There are no items in the system to display.");
-            return;
-        }
-        System.out.println("All Items");
-        printTableHeader(true);
-        for (Item item : allItems) {
-            System.out.println(item.toDisplayFormat(true));
-        }
-    }
-
-    public static void displayItemsByCategory() {
-        List<Item> allItems = ims.getAllItems();
-        String category = "";
-        if (allItems.isEmpty()) {
-            printNoItemMessage("There are no items in the system to display.");
-            return;
-        }
-        category = Validators.validateCategoryInput("Input Category(Clothing/Electronics/Entertainment): ");
-
-        List<Item> categoryItems = ims.getItemsByCategory(category);
-        if (categoryItems.isEmpty()) {
-            printNoItemMessage(String.format("There are no %s items in the system.", category));
-            return;
-        }
-        System.out.println("Items by category");// TODO ADJUST MESSAGE TO DISPLAY WHAT CATEGORY IT IS
-        printTableHeader(false);
-        for (Item categoryItem : categoryItems) {
-            System.out.println(categoryItem.toDisplayFormat(false));
-        }
-
-    }
-
-    public static void displayLowQuantityItems() {
-        List<Item> lowQuantityItems = ims.getLowQuantityItems();
-        if (lowQuantityItems.isEmpty()) {
-            printNoItemMessage("There are no low quantity items in the system to display.");
-            return;
-        }
-        System.out.println("Low Quantity Items");
-        printTableHeader(true);
-        for (Item lowQuanItem : lowQuantityItems) {
-            System.out.println(lowQuanItem.toDisplayFormat(true));
-        }
-    }
 
     public static void main(String[] args) {
         boolean programRunning = true;
@@ -418,4 +354,69 @@ public class Main {
             System.out.println(item.toDisplayFormat(true));
         }
     }
+
+    public static void printNoItemMessage(String message) {
+        System.out.println(".".repeat(30));
+        System.out.println(message);
+        System.out.println(".".repeat(30));
+    }
+
+    public static void printTableHeader(boolean includeCategory) {
+        if (includeCategory) {
+            System.out.printf("%-20s %-20s %-20s %-20s %-20s\n", "ITEM ID", "NAME", "QUANTITY", "PRICE", "CATEGORY");
+            System.out.println("-".repeat(100));
+        } else {
+            System.out.printf("%-20s %-20s %-20s %-20s\n", "ITEM ID", "NAME", "QUANTITY", "PRICE");
+            System.out.println("-".repeat(80));
+        }
+    }
+
+    public static void displayAllItems() {
+        List<Item> allItems = ims.getAllItems();
+        if (allItems.isEmpty()) {
+            printNoItemMessage("There are no items in the system to display.");
+            return;
+        }
+        System.out.println("All Items");
+        printTableHeader(true);
+        for (Item item : allItems) {
+            System.out.println(item.toDisplayFormat(true));
+        }
+    }
+
+    public static void displayItemsByCategory() {
+        List<Item> allItems = ims.getAllItems();
+        String category = "";
+        if (allItems.isEmpty()) {
+            printNoItemMessage("There are no items in the system to display.");
+            return;
+        }
+        category = Validators.validateCategoryInput("Input Category(Clothing/Electronics/Entertainment): ");
+
+        List<Item> categoryItems = ims.getItemsByCategory(category);
+        if (categoryItems.isEmpty()) {
+            printNoItemMessage(String.format("There are no %s items in the system.", category));
+            return;
+        }
+        System.out.println("Items by category");// TODO ADJUST MESSAGE TO DISPLAY WHAT CATEGORY IT IS
+        printTableHeader(false);
+        for (Item categoryItem : categoryItems) {
+            System.out.println(categoryItem.toDisplayFormat(false));
+        }
+
+    }
+
+    public static void displayLowQuantityItems() {
+        List<Item> lowQuantityItems = ims.getLowQuantityItems();
+        if (lowQuantityItems.isEmpty()) {
+            printNoItemMessage("There are no low quantity items in the system to display.");
+            return;
+        }
+        System.out.println("Low Quantity Items");
+        printTableHeader(true);
+        for (Item lowQuanItem : lowQuantityItems) {
+            System.out.println(lowQuanItem.toDisplayFormat(true));
+        }
+    }
+
 }
