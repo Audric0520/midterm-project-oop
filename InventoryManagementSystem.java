@@ -4,14 +4,6 @@ import java.util.List;
 public class InventoryManagementSystem {
     private final List<Item> items = new ArrayList<Item>();
 
-    public boolean isValidCategory(String category) {
-        if (category.equalsIgnoreCase("clothing") || category.equalsIgnoreCase("electronics")
-                || category.equalsIgnoreCase("entertainment")) {
-            return true;
-        }
-        return false;
-    }
-
     public boolean findDuplicateItem(String itemID) {
         for (Item item : items) {
             if (itemID.equalsIgnoreCase(item.getItemID())) {

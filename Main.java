@@ -83,6 +83,21 @@ class Validators {
         return number;
     }
 
+    public static String validateCategoryInput(String prompt) {
+        String category = "";
+        boolean validCategory = false;
+        do {
+            category = Validators.validateStringInput(prompt).toLowerCase();
+            if (!(category.equalsIgnoreCase("clothing") || category.equalsIgnoreCase("electronics")
+                    || category.equalsIgnoreCase("entertainment"))) {
+                System.out.printf("Category '%s' does not exist!\n", category);
+                continue;
+            }
+            validCategory = true;
+        } while (!validCategory);
+        return category;
+    }
+
     public static String validateIDInput(String category) {
         String prefix = getCategoryPrefix(category);
         System.out.printf("ID format: '%s' followed by numbers (e.g. %s01)\n", prefix, prefix);
@@ -187,20 +202,11 @@ public class Main {
     public static void displayItemsByCategory() {
         List<Item> allItems = ims.getAllItems();
         String category = "";
-        boolean validCategory = false;
         if (allItems.isEmpty()) {
             printNoItemMessage("There are no items in the system to display.");
             return;
         }
-        do {
-            category = Validators.validateStringInput("Input Category(Clothing/Electronics/Entertainment): ")
-                    .toLowerCase();
-            if (!ims.isValidCategory(category)) {
-                System.out.printf("Category '%s' does not exist!\n", category);
-                continue;
-            }
-            validCategory = true;
-        } while (!validCategory);
+        category = Validators.validateCategoryInput("Input Category(Clothing/Electronics/Entertainment): ");
 
         List<Item> categoryItems = ims.getItemsByCategory(category);
         if (categoryItems.isEmpty()) {
@@ -282,18 +288,9 @@ public class Main {
         int quantity;
         double price;
         String category = "";
-        boolean validCategory = false;
-        do {
-            category = Validators.validateStringInput("Input Category(Clothing/Electronics/Entertainment): ")
-                    .toLowerCase();
-            if (!ims.isValidCategory(category)) {
-                System.out.printf("Category '%s' does not exist!\n", category);
-                continue;
-            }
-            validCategory = true;
-        } while (!validCategory);
-
         boolean canAddItem = false;
+
+        category = Validators.validateCategoryInput("Input Category(Clothing/Electronics/Entertainment): ");
         do {
             ID = Validators.validateIDInput(category);
             if (ims.findDuplicateItem(ID)) {
