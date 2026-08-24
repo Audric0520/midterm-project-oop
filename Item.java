@@ -40,9 +40,9 @@ public abstract class Item {
     public abstract String getCategoryIdPrefix();
 
     public String toDisplayFormat(boolean includeCategory) {
-        String formattedPrice = String.format("P%.2f", price);
+        String formattedPrice = String.format("P%,.2f", price);
         if (includeCategory) {
-            return String.format("%-20s %-20s %-20s %-20s %-20s", itemID, name, quantity, formattedPrice,
+            return String.format("%-20s %-20s %-,20d %-20s %-20s", itemID, name, quantity, formattedPrice,
                     getCategory());
         }
         return String.format("%-20s %-20s %-20s %-20s", itemID, name, quantity, formattedPrice);

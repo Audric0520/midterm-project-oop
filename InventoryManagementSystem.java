@@ -15,7 +15,7 @@ public class InventoryManagementSystem {
 
     public void addItem(Item item) {
         items.add(item);
-        System.out.printf("%s Successfully Added!\n", item.getName());// TODO MAKE MESSAGE BETTER
+        System.out.println("Item Added Successfully!");
     }
 
     public Item findSpecificItem(String ID) {

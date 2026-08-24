@@ -2,7 +2,6 @@ import java.util.List;
 
 public class Main {
     public static final InventoryManagementSystem ims = new InventoryManagementSystem();
-    // public static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
         boolean programRunning = true;
@@ -68,7 +67,7 @@ public class Main {
                 continue;
             }
             canAddItem = true;
-        } while (!canAddItem); // TODO UPDATE VALIDATOR FOR ID
+        } while (!canAddItem);
         name = Validators.validateStringInput("Input Name: ");
         quantity = Validators.validateQuantityInput("Input Quantity: ", false);
         price = Validators.validateDoubleInput("Input Price: ");
@@ -91,8 +90,7 @@ public class Main {
 
     public static void updateItem() {
         List<Item> allItems = ims.getAllItems();
-        if (allItems.isEmpty()) {
-            printNoItemMessage("There are no items in the system to update.");
+        if (isListEmpty(allItems, "There are no items in the system to update.")) {
             return;
         }
         String ID;
@@ -137,8 +135,7 @@ public class Main {
 
     public static void removeItem() {
         List<Item> allItems = ims.getAllItems();
-        if (allItems.isEmpty()) {
-            printNoItemMessage("There are no items in the system to remove.");
+        if (isListEmpty(allItems, "There are no items in the system to remove.")) {
             return;
         }
         String ID;
@@ -155,8 +152,7 @@ public class Main {
 
     public static void searchItem() {
         List<Item> allItems = ims.getAllItems();
-        if (allItems.isEmpty()) {
-            printNoItemMessage("There are no items in the system to search.");
+        if (isListEmpty(allItems, "There are no items in the system to search.")) {
             return;
         }
         String ID = Validators.validateStringInput("Enter ID of Item to Search: ");
@@ -172,8 +168,7 @@ public class Main {
 
     public static void sortItems() {
         List<Item> allItems = ims.getAllItems();
-        if (allItems.isEmpty()) {
-            printNoItemMessage("There are no items in the system to sort.");
+        if (isListEmpty(allItems, "There are no items in the system to sort.")) {
             return;
         }
         String sortField = Validators
@@ -205,10 +200,17 @@ public class Main {
         }
     }
 
+    public static boolean isListEmpty(List<Item> items, String message) {
+        if (items.isEmpty()) {
+            printNoItemMessage(message);
+            return true;
+        }
+        return false;
+    }
+
     public static void displayAllItems() {
         List<Item> allItems = ims.getAllItems();
-        if (allItems.isEmpty()) {
-            printNoItemMessage("There are no items in the system to display.");
+        if (isListEmpty(allItems, "There are no items in the system to display.")) {
             return;
         }
         System.out.println("All Items");
@@ -221,15 +223,13 @@ public class Main {
     public static void displayItemsByCategory() {
         List<Item> allItems = ims.getAllItems();
         String category = "";
-        if (allItems.isEmpty()) {
-            printNoItemMessage("There are no items in the system to display.");
+        if (isListEmpty(allItems, "There are no items in the system to display by category.")) {
             return;
         }
         category = Validators.validateCategoryInput("Input Category(Clothing/Electronics/Entertainment): ");
 
         List<Item> categoryItems = ims.getItemsByCategory(category);
-        if (categoryItems.isEmpty()) {
-            printNoItemMessage(String.format("There are no %s items in the system.", category));
+        if (isListEmpty(categoryItems, String.format("There are no %s items in the system.", category))) {
             return;
         }
         System.out.println("Items by category");// TODO ADJUST MESSAGE TO DISPLAY WHAT CATEGORY IT IS
@@ -242,8 +242,7 @@ public class Main {
 
     public static void displayLowQuantityItems() {
         List<Item> lowQuantityItems = ims.getLowQuantityItems();
-        if (lowQuantityItems.isEmpty()) {
-            printNoItemMessage("There are no low quantity items in the system to display.");
+        if (isListEmpty(lowQuantityItems, "There are no low quantity items in the system to display.")) {
             return;
         }
         System.out.println("Low Quantity Items");
