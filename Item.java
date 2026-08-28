@@ -41,10 +41,11 @@ public abstract class Item {
 
     public String toDisplayFormat(boolean includeCategory) {
         String formattedPrice = String.format("P%,.2f", price);
+        String formattedName = name.length() > 15 ? name.substring(0, 15) + "..." : name;
         if (includeCategory) {
-            return String.format("%-20s %-20s %-,20d %-20s %-20s", itemID, name, quantity, formattedPrice,
+            return String.format("%-20s %-20s %-,20d %-20s %-20s", itemID, formattedName, quantity, formattedPrice,
                     getCategory());
         }
-        return String.format("%-20s %-20s %-20s %-20s", itemID, name, quantity, formattedPrice);
+        return String.format("%-20s %-20s %-20s %-20s", itemID, formattedName, quantity, formattedPrice);
     }
 }

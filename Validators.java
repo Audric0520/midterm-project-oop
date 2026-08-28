@@ -54,7 +54,7 @@ public class Validators {
         return stringInput;
     }
 
-    public static double validateDoubleInput(String prompt) {
+    public static double validatePriceInput(String prompt) {
         boolean isRunning = true;
         double number = 0;
         String inputNumber = "";
@@ -73,8 +73,11 @@ public class Validators {
                 System.out.println("Number is too large. Try Again.");
                 continue;
             }
-            if (number <= 0) {
-                System.out.println("Input must be greater than 0. Try Again.");
+            if (number < 1) {
+                System.out.println("Invalid Input. Price must be greater than or equal to 1.00. Try Again.");
+                continue;
+            } else if (number > 1000000) {
+                System.out.println("Invalid Input. Price cannot be greater than 1,000,000.00. Try Again.");
                 continue;
             }
             isRunning = false;
@@ -138,16 +141,15 @@ public class Validators {
         int number = 0;
         while (isRunning) {
             number = validateIntInput(prompt);
-            if (forUpdating) {
-                if (number < 0) {
-                    System.out.println("Invalid Input. Quantity cannot be negative. Try Again.");
-                    continue;
-                }
-            } else {
-                if (number <= 0) {
-                    System.out.println("Invalid Input. Quantity must be greater than 0. Try Again.");
-                    continue;
-                }
+            if (forUpdating && number < 0) {
+                System.out.println("Invalid Input. Quantity must be between 0 - 1000. Try Again.");
+                continue;
+            } else if (!forUpdating && number <= 0) {
+                System.out.println("Invalid Input. Quantity must be between 1 - 1000. Try Again.");
+                continue;
+            } else if (number > 1000) {
+                System.out.println("Invalid Input. Quantity cannot be higher than 1000. Try Again.");
+                continue;
             }
             isRunning = false;
         }

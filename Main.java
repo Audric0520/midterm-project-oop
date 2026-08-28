@@ -69,8 +69,8 @@ public class Main {
             canAddItem = true;
         } while (!canAddItem);
         name = Validators.validateStringInput("Input Name: ");
-        quantity = Validators.validateQuantityInput("Input Quantity: ", false);
-        price = Validators.validateDoubleInput("Input Price: ");
+        quantity = Validators.validateQuantityInput("QUANTITY(1-1000)\nInput Quantity: ", false);
+        price = Validators.validatePriceInput("PRICE(1.00-1,000,000.00)\nInput Price: ");
         Item item;
         switch (category) {
             case "clothing":
@@ -106,7 +106,7 @@ public class Main {
             int oldQuantity = 0, newQuantity = 0;
             do {
                 oldQuantity = item.getQuantity();
-                newQuantity = Validators.validateQuantityInput("Input new Quantity: ", true);
+                newQuantity = Validators.validateQuantityInput("QUANTITY(0-1000)\nInput new Quantity: ", true);
                 if (oldQuantity == newQuantity) {
                     System.out.printf("Quantity of Item '%s' is already %d. Try Again\n", item.getName(), oldQuantity);
                 }
@@ -120,7 +120,7 @@ public class Main {
             double oldPrice = 0, newPrice = 0;
             do {
                 oldPrice = item.getPrice();
-                newPrice = Validators.validateDoubleInput("Input new Price: ");
+                newPrice = Validators.validatePriceInput("PRICE(1.00-1,000,000.00)\nInput new Price: ");
                 if (oldPrice == newPrice) {
                     System.out.printf("Price of Item '%s' is already %.2f. Try Again\n", item.getName(), oldPrice);
                 }
@@ -161,8 +161,7 @@ public class Main {
             System.out.println("Item not Found!");
             return;
         }
-        System.out.printf("%s\nItem ID '%s' Details\n%s\n", ".".repeat(30), item.getItemID(), ".".repeat(30));
-        printTableHeader(true);
+        printTableHeader(true, String.format("ITEM ID '%s' DETAILS", item.getItemID()));
         System.out.println(item.toDisplayFormat(true));
     }
 
@@ -178,7 +177,8 @@ public class Main {
                         "Sort by Ascending or Descending\n1. Ascending\n2. Descending\nChoice(1 or 2): ");
 
         List<Item> sorted = ims.getSortedItems(sortField, isAscending);
-        printTableHeader(true);
+        String order = isAscending ? "ASCENDING" : "DESCENDING";
+        printTableHeader(true, String.format("ALL ITEMS SORTED BY %s (%s)", sortField.toUpperCase(), order));
         for (Item item : sorted) {
             System.out.println(item.toDisplayFormat(true));
         }
@@ -190,7 +190,10 @@ public class Main {
         System.out.println(".".repeat(30));
     }
 
-    public static void printTableHeader(boolean includeCategory) {
+    public static void printTableHeader(boolean includeCategory, String tableTitle) {
+        System.out.println("-".repeat(100));
+        System.out.println(tableTitle);
+        System.out.println("-".repeat(100));
         if (includeCategory) {
             System.out.printf("%-20s %-20s %-20s %-20s %-20s\n", "ITEM ID", "NAME", "QUANTITY", "PRICE", "CATEGORY");
             System.out.println("-".repeat(100));
@@ -213,8 +216,7 @@ public class Main {
         if (isListEmpty(allItems, "There are no items in the system to display.")) {
             return;
         }
-        System.out.println("All Items");
-        printTableHeader(true);
+        printTableHeader(true, "ALL ITEMS");
         for (Item item : allItems) {
             System.out.println(item.toDisplayFormat(true));
         }
@@ -232,8 +234,7 @@ public class Main {
         if (isListEmpty(categoryItems, String.format("There are no %s items in the system.", category))) {
             return;
         }
-        System.out.println("Items by category");// TODO ADJUST MESSAGE TO DISPLAY WHAT CATEGORY IT IS
-        printTableHeader(false);
+        printTableHeader(false, String.format("ALL ITEMS IN %s", category.toUpperCase()));
         for (Item categoryItem : categoryItems) {
             System.out.println(categoryItem.toDisplayFormat(false));
         }
@@ -245,8 +246,7 @@ public class Main {
         if (isListEmpty(lowQuantityItems, "There are no low quantity items in the system to display.")) {
             return;
         }
-        System.out.println("Low Quantity Items");
-        printTableHeader(true);
+        printTableHeader(true, "ALL LOW QUANTITY ITEMS");
         for (Item lowQuanItem : lowQuantityItems) {
             System.out.println(lowQuanItem.toDisplayFormat(true));
         }
