@@ -102,14 +102,14 @@ public class Validators {
 
     public static String validateIDInput(String category) {
         String prefix = getCategoryPrefix(category);
-        System.out.printf("ID format: '%s' followed by numbers (e.g. %s01)\n", prefix, prefix);
+        System.out.printf("ID format: '%s' followed by 6 numbers (e.g. %s123456)\n", prefix, prefix);
         boolean isRunning = true;
         String id = "";
         while (isRunning) {
             id = validateStringInput("Input ID: ");
-            if (!id.matches("(?i)" + prefix + "\\d+")) {
+            if (!id.matches("(?i)" + prefix + "\\d{6}")) {
                 System.out.printf(
-                        "Invalid Input. ID must be '%s' followed by numbers (e.g. %s001, %s002). Try Again.\n",
+                        "Invalid Input. ID must be '%s' followed by 6 numbers (e.g. %s052007, %s092702). Try Again.\n",
                         prefix, prefix, prefix.toLowerCase());
                 continue;
             }
