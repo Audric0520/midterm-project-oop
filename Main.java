@@ -68,7 +68,7 @@ public class Main {
             }
             canAddItem = true;
         } while (!canAddItem);
-        name = Validators.validateStringInput("Input Name: ");
+        name = Validators.validateNameInput("Input Name: ");
         quantity = Validators.validateQuantityInput("QUANTITY(1-1000)\nInput Quantity: ", false);
         price = Validators.validatePriceInput("PRICE(1.00-1,000,000.00)\nInput Price: ");
         Item item;
