@@ -86,6 +86,7 @@ public class Main {
                 return;
         }
         ims.addItem(item);
+        System.out.println("Item Added Successfully!");
     }
 
     public static void updateItem() {

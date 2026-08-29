@@ -28,10 +28,16 @@ public abstract class Item {
     }
 
     public void setQuantity(int quantity) {
+        if (quantity < 0 || quantity > 1000) {
+            throw new IllegalArgumentException("Invalid Quantity Input.");
+        }
         this.quantity = quantity;
     }
 
     public void setPrice(double price) {
+        if (price < 1.00 || price > 1_000_000.00) {
+            throw new IllegalArgumentException("Invalid Price Input.");
+        }
         this.price = price;
     }
 

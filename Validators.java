@@ -67,12 +67,7 @@ public class Validators {
                 System.out.println("Invalid Input. Only input numbers without leading zeroes. Try Again.");
                 continue;
             }
-            try {
-                number = Double.parseDouble(inputNumber);
-            } catch (NumberFormatException e) {
-                System.out.println("Number is too large. Try Again.");
-                continue;
-            }
+            number = Double.parseDouble(inputNumber);
             if (number < 1) {
                 System.out.println("Invalid Input. Price must be greater than or equal to 1.00. Try Again.");
                 continue;
