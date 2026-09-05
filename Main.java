@@ -197,10 +197,10 @@ public class Main {
         System.out.println(tableTitle);
         System.out.println("-".repeat(100));
         if (includeCategory) {
-            System.out.printf("%-20s %-20s %-20s %-20s %-20s\n", "ITEM ID", "NAME", "QUANTITY", "PRICE", "CATEGORY");
+            System.out.printf("%-15s %-25s %-20s %-20s %-20s\n", "ITEM ID", "NAME", "QUANTITY", "PRICE", "CATEGORY");
             System.out.println("-".repeat(100));
         } else {
-            System.out.printf("%-20s %-20s %-20s %-20s\n", "ITEM ID", "NAME", "QUANTITY", "PRICE");
+            System.out.printf("%-15s %-25s %-20s %-20s\n", "ITEM ID", "NAME", "QUANTITY", "PRICE");
             System.out.println("-".repeat(80));
         }
     }
