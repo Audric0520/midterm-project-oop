@@ -16,6 +16,7 @@ public class Main {
             System.out.println("7. Sort Items");
             System.out.println("8. Display Low Stock Items");
             System.out.println("9. Exit");
+            System.out.println("=================================================");
             int choice = Validators.validateNumberChoiceInput("Choice(1-9): ", 1, 9);
             switch (choice) {
                 case 1:
@@ -70,7 +71,7 @@ public class Main {
         } while (!canAddItem);
         name = Validators.validateNameInput("Input Name: ");
         quantity = Validators.validateQuantityInput("QUANTITY(1-1000)\nInput Quantity: ", false);
-        price = Validators.validatePriceInput("PRICE(1.00-1,000,000.00)\nInput Price: ");
+        price = Validators.validatePriceInput("PRICE(P1.00-P1,000,000.00)\nInput Price: ");
         Item item;
         switch (category) {
             case "clothing":
@@ -86,7 +87,7 @@ public class Main {
                 return;
         }
         ims.addItem(item);
-        System.out.println("Item Added Successfully!");
+        System.out.println("\nItem Added Successfully!");
     }
 
     public static void updateItem() {
@@ -98,7 +99,7 @@ public class Main {
         ID = Validators.validateStringInput("Input ID of item to Update: ");
         Item item = ims.findSpecificItem(ID);
         if (item == null) {
-            System.out.println("Item not Found!");
+            System.out.println("\nItem not Found!");
             return;
         }
         String field = Validators
@@ -143,7 +144,7 @@ public class Main {
         ID = Validators.validateStringInput("Input ID of Item to Remove: ");
         Item item = ims.findSpecificItem(ID);
         if (item == null) {
-            System.out.println("Item not Found!");
+            System.out.println("\nItem not Found!");
             return;
         }
         String name = item.getName();
@@ -232,7 +233,8 @@ public class Main {
         category = Validators.validateCategoryInput("Input Category(Clothing/Electronics/Entertainment): ");
 
         List<Item> categoryItems = ims.getItemsByCategory(category);
-        if (isListEmpty(categoryItems, String.format("There are no %s items in the system.", category))) {
+        if (isListEmpty(categoryItems,
+                String.format("There are no %s items in the system.", category))) {
             return;
         }
         printTableHeader(false, String.format("ALL ITEMS IN %s", category.toUpperCase()));

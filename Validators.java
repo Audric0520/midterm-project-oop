@@ -59,7 +59,7 @@ public class Validators {
         String name = "";
         while (isRunning) {
             name = Validators.validateStringInput(prompt);
-            if (!name.matches("^[a-zA-Z0-9]+$")) {
+            if (!name.matches("^[a-zA-Z0-9 ]+$")) {
                 System.out.println("Invalid Input. Name must be alphanumeric(e.g. Colgate, PS5). Try Again.");
                 continue;
             } else {
@@ -83,11 +83,8 @@ public class Validators {
                 continue;
             }
             number = Double.parseDouble(inputNumber);
-            if (number < 1) {
-                System.out.println("Invalid Input. Price must be greater than or equal to 1.00. Try Again.");
-                continue;
-            } else if (number > 1000000) {
-                System.out.println("Invalid Input. Price cannot be greater than 1,000,000.00. Try Again.");
+            if (number < 1 || number > 1000000) {
+                System.out.println("Invalid Price Input. Price must be between P1.00 - P1,000,000.00. Try Again.");
                 continue;
             }
             isRunning = false;
@@ -112,14 +109,15 @@ public class Validators {
 
     public static String validateIDInput(String category) {
         String prefix = getCategoryPrefix(category);
-        System.out.printf("ID format: '%s' followed by 6 numbers (e.g. %s123456)\n", prefix, prefix);
+        System.out.printf("ID format: '%s' followed by 6 numbers (e.g. %s123456, %s122526)\n", prefix, prefix,
+                prefix.toLowerCase());
         boolean isRunning = true;
         String id = "";
         while (isRunning) {
             id = validateStringInput("Input ID: ");
             if (!id.matches("(?i)" + prefix + "\\d{6}")) {
                 System.out.printf(
-                        "Invalid Input. ID must be '%s' followed by 6 numbers (e.g. %s052007, %s092702). Try Again.\n",
+                        "Invalid ID Input. ID must be '%s' followed by 6 numbers (e.g. %s052007, %s092702). Try Again.\n",
                         prefix, prefix, prefix.toLowerCase());
                 continue;
             }
@@ -152,13 +150,10 @@ public class Validators {
         while (isRunning) {
             number = validateIntInput(prompt);
             if (forUpdating && number < 0) {
-                System.out.println("Invalid Input. Quantity must be between 0 - 1000. Try Again.");
+                System.out.println("Invalid Quantity Input. Quantity must be between 0 - 1000. Try Again.");
                 continue;
-            } else if (!forUpdating && number <= 0) {
-                System.out.println("Invalid Input. Quantity must be between 1 - 1000. Try Again.");
-                continue;
-            } else if (number > 1000) {
-                System.out.println("Invalid Input. Quantity cannot be higher than 1000. Try Again.");
+            } else if (!forUpdating && (number <= 0 || number > 1000)) {
+                System.out.println("Invalid Quantity Input. Quantity must be between 1 - 1000. Try Again.");
                 continue;
             }
             isRunning = false;
