@@ -149,7 +149,7 @@ public class Validators {
         int number = 0;
         while (isRunning) {
             number = validateIntInput(prompt);
-            if (forUpdating && number < 0) {
+            if (forUpdating && (number < 0 || number > 1000)) {
                 System.out.println("Invalid Quantity Input. Quantity must be between 0 - 1000. Try Again.");
                 continue;
             } else if (!forUpdating && (number <= 0 || number > 1000)) {
