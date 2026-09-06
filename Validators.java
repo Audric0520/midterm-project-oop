@@ -17,7 +17,7 @@ public class Validators {
             try {
                 number = Integer.parseInt(inputNumber);
             } catch (NumberFormatException e) {
-                System.out.println("Number is too large. Try Again.");
+                System.out.println("Invalid Input. Number is too large. Try Again.");
                 continue;
             }
             isRunning = false;
