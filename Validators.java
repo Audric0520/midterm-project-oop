@@ -60,7 +60,7 @@ public class Validators {
         while (isRunning) {
             name = Validators.validateStringInput(prompt);
             if (!name.matches("^[a-zA-Z0-9 ]+$")) {
-                System.out.println("Invalid Input. Name must be alphanumeric(e.g. Colgate, PS5). Try Again.");
+                System.out.println("Invalid Name Input. Name must be alphanumeric(e.g. Colgate, PS5). Try Again.");
                 continue;
             } else {
                 isRunning = false;
