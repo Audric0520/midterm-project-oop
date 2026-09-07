@@ -160,7 +160,7 @@ public class Main {
         String ID = Validators.validateStringInput("Enter ID of Item to Search: ");
         Item item = ims.findSpecificItem(ID);
         if (item == null) {
-            System.out.println("Item not Found!");
+            System.out.println("\nItem not Found!");
             return;
         }
         printTableHeader(true, String.format("ITEM ID '%s' DETAILS", item.getItemID()));
